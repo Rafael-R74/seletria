@@ -1,0 +1,21 @@
+name: Atualizar Seletria na VPS
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Atualizar codigo na VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 163.176.237.65
+          username: ubuntu
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd ~/servidor/projetos/seletria/src
+            git fetch --all
+            git reset --hard origin/main
+            sudo chmod -R 777 ~/servidor/projetos/seletria/src
